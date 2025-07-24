@@ -520,6 +520,292 @@ public class Hashing {
     }
 
 
+    /**
+     *   Largest Unique Number </br> </br>
+     *
+     *   Given an integer array nums, return the largest integer that only occurs once. If no integer occurs once, return -1.</br>
+     *
+     *   Example 1:</br>
+     *   Input: nums = [5,7,3,9,4,9,8,3,1]</br>
+     *   Output: 8</br>
+     *   Explanation: The maximum integer in the array that occurs only once is 8.</br>
+     *   Example 2:</br>
+     *   Input: nums = [9,9,8,8]</br>
+     *   Output: -1</br>
+     *
+     *   Constraints:</br>
+     *   1 <= nums.length <= 2000
+     *   0 <= nums[i] <= 1000 </br>
+     *
+     *   Solution: </br>
+     *   Time Complexity: O(n^2) </br>
+     *   Space Complexity: O(1) </br>
+     * */
+    public static int largetUniqueNumberBruteForce(int [] nums){
+
+        int ans = -1;
+
+        for (int num : nums) {
+            int count = 0;
+
+            for (int i : nums) {
+                if (num == i) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                ans = Math.max(ans, num);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * Largest Unique Number using HashMap </br>
+     * </br>
+     * This approach uses a HashMap to count the frequency of each number and then finds the largest number that occurs only once.
+     *</br>
+     * Time Complexity: O(n)
+     * Space Complexity: O(n)
+     */
+    public static int largetUniqueNumberHashMap(int [] nums){
+        int ans = -1;
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int num : nums) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        for(Integer i : frequencyMap.keySet()){
+            if(frequencyMap.get(i) == 1 ){
+                ans = Math.max(ans, i);
+            }
+        }
+
+        return ans;
+    }
+
+    /**
+     * Maximum Number of Balloons </br> </br>
+     * Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible. </br>
+     *
+     * You can use each character in text at most once. Return the maximum number of instances that can be formed.</br></br>
+     *
+     * Example: </br>
+     * Input: text = "nlaebolko" </br>
+     * Output: 1 </br>
+     *
+     * Input: text = "loonbalxballpoon" </br>
+     * Output: 2 </br>
+     *
+     * Input: text = "leetcode" </br>
+     * Output: 0 </br> </br>
+     *
+     * Solution:
+     * Time Complexity: = O(n) </br>
+     * Space Complexity = O(1)
+     * */
+    public static int maxNumberOfBalloons(String text){
+        int bCount = 0, aCount = 0, lCount = 0, oCount= 0, nCount = 0;
+
+        for(int i = 0; i < text.length(); i++){
+            switch (text.charAt(i)){
+                case 'b':
+                    bCount++;
+                    break;
+                case 'a':
+                    aCount++;
+                    break;
+                case 'l':
+                    lCount++;
+                    break;
+                case 'o':
+                    oCount++;
+                    break;
+                case 'n':
+                    nCount++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        lCount = lCount / 2;
+        oCount = oCount / 2;
+
+        System.out.printf("b= %d, a= %d, l= %d, o= %d, n= %d \n", bCount, aCount, lCount, oCount, nCount);
+
+        return Math.min(bCount, Math.min(aCount, Math.min(lCount, Math.min(oCount, nCount))));
+    }
+
+    /**
+     * As a follow-up exercise, let's consider how we can approach this problem if the word is not guaranteed to be <b>balloon</b>. </br> Suppose we are given an arbitrary string <b>pattern</b> </br>  instead of balloon then we can use the same counting characters approach, </br>  except we must do so in a more generalized way.
+     * </br>
+     *
+     * Solution: </br>
+     * Time Complexity: O(n + m): n = length of text & m = length of pattern </br>
+     * Space Complexity: O(1)
+     * */
+    public static int maxNumberOfBallonWIthPattern(String text, String pattern){
+        int ans = Integer.MAX_VALUE;
+        int [] freqInPattern = new int[26];
+        int [] freqInText = new int[26];
+
+        for(int i =0; i < pattern.length(); i++){
+            freqInPattern[pattern.charAt(i) - 'a'] ++;
+        }
+
+        for(int i = 0; i < text.length(); i++){
+            freqInText[text.charAt(i) - 'a'] ++;
+        }
+
+        for(int i = 0; i < 26; i++ ){
+            if(freqInPattern[i] > 0){
+                ans = Math.min(ans, (freqInText[i] / freqInPattern[i]));
+            }
+
+        }
+        return ans == Integer.MAX_VALUE ? 0: ans;
+    }
+
+
+    /**
+     * Contiguous Array </br></br>
+     * Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+     * </br></br>
+     * Example:
+     * </br>
+     * Input: nums = [0,1]</br>
+     * Output: 2</br>
+     * Explanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.</br>
+     * </br></br>
+     * Input: nums = [0,1,0]</br>
+     * Output: 2</br>
+     * Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.</br>
+     * </br></br>
+     * Input: nums = [0,1,1,1,1,1,0,0,0]</br>
+     * Output: 6</br>
+     * Explanation: [1,1,1,0,0,0] is the longest contiguous subarray with equal number of 0 and 1.</br>
+     * </br></br>
+     * Solution: </br>
+     * Time Complexity: O(n^2)</br>
+     * Space Complexity: O(1)
+     *
+     * */
+    public static int contagiousSubArrayBruteForce(int [] nums){
+        int ans = 0;
+        if(nums.length == 1){
+            return ans;
+        }
+        for(int i = 0; i < nums.length; i++){
+            int oneCt = 0;
+            int zeroCt = 0;
+
+            if(nums[i] == 1){
+                oneCt++;
+            }else{
+                zeroCt++;
+            }
+
+            for(int j = i + 1; j < nums.length; j++){
+                if(nums[j] == 1){
+                    oneCt++;
+                }else{
+                    zeroCt++;
+                }
+
+                if(oneCt == zeroCt){
+                    ans = Math.max(ans, j - i + 1);
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * Version with detailed tracing for understanding
+     */
+    public static int contagiousSubArrayPrefixSum(int[] nums) {
+        Map<Integer, Integer> countMap = new HashMap<>();
+        countMap.put(0, -1);
+
+        int count = 0;
+        int maxLength = 0;
+
+        System.out.println("Array: " + Arrays.toString(nums));
+        System.out.println("Index | Value | Count | Action");
+        System.out.println("-------------------------------------");
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                count++;
+            } else {
+                count--;
+            }
+
+            if (countMap.containsKey(count)) {
+                int length = i - countMap.get(count);
+                maxLength = Math.max(maxLength, length);
+                System.out.printf("  %d   |   %d   | %3d  | Found! Length = %d%n",
+                        i, nums[i], count, length);
+            } else {
+                countMap.put(count, i);
+                System.out.printf("  %d   |   %d   | %3d  | Store count = %d at index %d%n",
+                        i, nums[i], count, count, i);
+            }
+        }
+
+        System.out.println("\nFinal answer: " + maxLength + "\n");
+        return maxLength;
+    }
+
+
+    public static List<List<String>> groupAnagrams(String[] strs) {
+
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for(String str : strs){
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String sorted = new String(chars);
+
+            if(!map.containsKey(sorted)){
+                map.put(sorted, new ArrayList<>());
+            }
+
+            map.get(sorted).add(str);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+
+    //sorting can be done in constant time if we have constraint that there are only lower case english letters
+    public static void  countSort(String s){
+        int [] freq = new int[26];
+
+        for(int i = 0; i < s.length(); i++){
+            int index = s.charAt(i) - 'a';
+            freq[index] ++;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < 26; i++){
+
+            for(int j = 0; j < freq[i]; j++){
+                char ch = (char) (i + 'a');
+                builder.append(ch);
+
+            }
+
+
+        }
+
+        System.out.println(builder);
+
+    }
+
+
 
 
 
@@ -545,7 +831,17 @@ public class Hashing {
 
         //System.out.println(distinctCharacterBruteForce("abcaacscdtusr", 3));
 
-        findWinners(matches);
+       // findWinners(matches);
+
+       // System.out.println(maxNumberOfBallonWIthPattern("leetcode","balloon"));
+
+       // System.out.println("=== DETAILED TRACE EXAMPLE ===");
+       // contagiousSubArrayPrefixSum(new int[]{0, 1, 1, 0, 0, 1});
+
+      //  System.out.println(groupAnagrams(new String[] {"eat", "tan", "tea", "ate", "nat", "bat"}));
+
+        countSort("feadccba");
+
     }
 
 

@@ -40,17 +40,6 @@ public class LambdaExample {
 
         nums.stream().filter(num -> num % 2 == 1).forEach(System.out::println);
 
-        names.stream().map(String::length);
-
-
-
-
-
-
-
-
-
-
 
     }
 }

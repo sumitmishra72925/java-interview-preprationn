@@ -9,16 +9,20 @@ A comprehensive multi-package Java interview preparation repository containing d
 ├── Main.class
 └── topic/
     ├── custom_impl/
-    │   └── hashmap/
+    │   └── map_int/
+    |   └── list_int/
     ├── dsa/
     │   └── array_string/
-    │       └── linkedlist/
+    │   └── linkedlist/
+    |   └── hashing/
+    |   └── tree_graphs/
+    |   └── stack_queue/
     └── java/
         └── learning/
             ├── collections_generics/
             ├── functional_programming/
             ├── oops_concept/
-            └── threads/
+            └── concurrency/
 ```
 
 ## 🎯 What's Inside
